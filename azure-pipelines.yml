@@ -16,11 +16,11 @@ pool:
   name: 'sh-skr-test'
 
 variables:
-  - group: terraform-dns-record
+  - group: SH-SKR-test
   - name: WORK_DIR
     value: '$(BASE_DIR)/runs/${{ parameters.REQUEST_ID }}'
   - name: STATE_DIR
-    value: '$(BASE_DIR)/state/${{ parameters.ENV }}/${{ parameters.PROJECT }}/$(STACK)'
+    value: '$(BASE_DIR)/state/${{ parameters.ENV }}/${{ parameters.PROJECT }}/$(STACK-GW)'
   - name: VAR_FILE
     value: 'application_gateways.auto.tfvars.json'
 
