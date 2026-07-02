@@ -22,7 +22,7 @@ variables:
   - name: STATE_DIR
     value: '$(BASE_DIR)/state/${{ parameters.ENV }}/${{ parameters.PROJECT }}/$(STACK-GW)'
   - name: VAR_FILE
-    value: 'application_gateways.auto.tfvars.json'
+    value: 'app-gw.auto.tfvars.json'
 
 stages:
   - stage: Prepare
@@ -49,7 +49,7 @@ stages:
                 echo '{"application_gateways":{}}' > $(WORK_DIR)/merged.json
               fi
 
-              jq -c '.application_gateways[] | "\(.resource_group_name)__\(.app_gateway_name)"' terraform.tfvars.json > gateway-keys.txt
+              jq -c '.application_gateways[] | "\(.resource_group_name)__\(.app_gateway_name)"' terraform.tfvars.json > app-gw-keys.txt
 
               while read -r target_key; do
                   target_key=$(echo "$target_key" | jq -r .)
@@ -65,7 +65,7 @@ stages:
                           '.application_gateways |= (with_entries(select(("\(.value.resource_group_name)__\(.value.app_gateway_name)") != $k)) + {($k): $spec})' \
                           merged.json > tmp.json && mv tmp.json merged.json
                   fi
-              done < gateway-keys.txt
+              done < app-gw-keys.txt
 
               mv merged.json $(VAR_FILE)
 
