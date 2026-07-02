@@ -102,7 +102,7 @@ stages:
               scriptLocation: 'inlineScript'
               inlineScript: |
                 cd $(WORK_DIR)
-                terraform plan -var-file=$(VAR_FILE) -out=tfplan 2>error.log
+                terraform plan -var-file=$(VAR_FILE) -out=tfplan 2>&1
                 terraform show -json tfplan > tfplan.json
             displayName: 'Terraform Plan'
 
