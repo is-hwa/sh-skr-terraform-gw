@@ -21,6 +21,7 @@ resource "azurerm_application_gateway" "network" {
   name                = each.value.app_gateway_name
   resource_group_name = data.azurerm_resource_group.rg[each.value.resource_group_name].name
   location            = data.azurerm_resource_group.rg[each.value.resource_group_name].location
+  tags                = each.value.tags
 
   sku {
     name     = each.value.sku_settings.name
