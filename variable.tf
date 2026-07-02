@@ -31,6 +31,8 @@ variable "application_gateways" {
       backend_key  = string
       priority     = number
     })), {})
+
+    tags = optional(map(string), {})
   }))
   default = {}
 }
