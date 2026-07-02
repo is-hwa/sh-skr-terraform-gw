@@ -16,6 +16,7 @@ pool:
   name: 'sh-skr-test'
 
 variables:
+  - group: terraform-dns-record
   - name: WORK_DIR
     value: '$(BASE_DIR)/runs/${{ parameters.REQUEST_ID }}'
   - name: STATE_DIR
