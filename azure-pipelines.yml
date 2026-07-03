@@ -32,6 +32,7 @@ stages:
           - checkout: self
 
           - script: |
+              set -e
               mkdir -p $(WORK_DIR) $(STATE_DIR)
               cd $(WORK_DIR)
 
@@ -86,6 +87,7 @@ stages:
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
+                set -e
                 cd $(WORK_DIR)
                 terraform init -backend-config="backend.hcl" 2>error.log
             displayName: 'Terraform Init'
@@ -101,8 +103,9 @@ stages:
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
+                set -e
                 cd $(WORK_DIR)
-                terraform plan -var-file=$(VAR_FILE) -out=tfplan 2>&1
+                terraform plan -var-file=$(VAR_FILE) -out=tfplan 2>error.log
                 terraform show -json tfplan > tfplan.json
             displayName: 'Terraform Plan'
 
@@ -118,6 +121,7 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
+                set -e
                 {
                 PLAN_JSON=$(cat $(WORK_DIR)/tfplan.json | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | tr '\n' ' ' | tr '\t' ' ')
 
@@ -148,6 +152,7 @@ stages:
                     scriptType: 'bash'
                     scriptLocation: 'inlineScript'
                     inlineScript: |
+                      set -e
                       cd $(WORK_DIR)
                       terraform apply -auto-approve tfplan 2>error.log
                       cp $(VAR_FILE) $(STATE_DIR)/$(VAR_FILE)
