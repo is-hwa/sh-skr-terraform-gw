@@ -9,6 +9,10 @@ resource "azurerm_public_ip" "agw_pip" {
   location            = data.azurerm_resource_group.rg[each.value.resource_group_name].location
   allocation_method   = "Static"
   sku                 = "Standard"
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Application Gateway 생성 (게이트웨이마다 독립적으로 for_each)
