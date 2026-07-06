@@ -81,6 +81,7 @@ stages:
     jobs:
       - job: TerraformInit
         steps:
+          - checkout: none
           - task: AzureCLI@2
             inputs:
               azureSubscription: 'sh2-service-connection'
@@ -97,6 +98,7 @@ stages:
     jobs:
       - job: TerraformPlan
         steps:
+          - checkout: none
           - task: AzureCLI@2
             inputs:
               azureSubscription: 'sh2-service-connection'
@@ -116,6 +118,7 @@ stages:
     jobs:
       - job: SendPlanResult
         steps:
+          - checkout: none
           - task: Bash@3
             displayName: 'Send Plan Result'
             inputs:
@@ -146,6 +149,7 @@ stages:
           runOnce:
             deploy:
               steps:
+                - checkout: none
                 - task: AzureCLI@2
                   inputs:
                     azureSubscription: 'sh2-service-connection'
@@ -165,6 +169,7 @@ stages:
     jobs:
       - job: SendSuccess
         steps:
+          - checkout: none
           - task: Bash@3
             displayName: 'Notify Pipeline Success'
             inputs:
@@ -186,6 +191,7 @@ stages:
     jobs:
       - job: SendErrorLog
         steps:
+          - checkout: none
           - task: Bash@3
             displayName: 'Notify Pipeline Failure with Local Logs'
             inputs:
